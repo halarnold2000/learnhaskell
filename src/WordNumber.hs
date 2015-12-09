@@ -1,4 +1,6 @@
 module WordNumber ( myWords
+                  , prependEq
+                  , prependNEq
 
                     ) where
 
@@ -8,13 +10,27 @@ import Data.List (intersperse)
 -- takeWhile (/=' ') "all something" will take everything up to
 -- the space
 -- dropWhile (==' ') " all something" will take "all something"
-myWords :: String -> [String]
-myWords str = myWords' str [] where
+prependEq :: Char -> Bool
+prependEq = (==' ')
+
+prependNEq :: Char -> Bool
+prependNEq = (/=' ')
+
+myWords :: (Char -> Bool) -> (Char -> Bool) -> String -> [String]
+myWords fn1 fn2 str = myWords' str [] where
   myWords' str accum = case str of
-    []         -> accum
-    x@(' ': xs)  -> myWords' [] accum ++ [dropWhile(==' ') x]
-    xs         -> let (a, b) = (takeWhile (/= ' ') xs, dropWhile(/= ' ') xs)
-                  in myWords' b (accum ++ [a])
+    []           -> accum
+    x@(' ': xs)  -> myWords' (dropWhile fn1 x) accum
+
+    --let cl = dropWhile fn1 x
+    --                in myWords' cl accum
+
+    xs           -> myWords' (dropWhile fn2 xs) (accum ++ [takeWhile fn2 xs])
+
+
+    --let a = takeWhile fn2 xs
+    --                    b = dropWhile fn2 xs
+    --                in myWords' b (accum ++ [a])
 
 dropChars :: (a -> Bool) -> [a] -> [a]
 dropChars f = dropWhile f
