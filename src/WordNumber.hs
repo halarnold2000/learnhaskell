@@ -1,5 +1,5 @@
 module WordNumber ( myWords
-                  
+
                     ) where
 
 import Data.List (intersperse)
@@ -12,7 +12,7 @@ myWords :: String -> [String]
 myWords str = myWords' str [] where
   myWords' str accum = case str of
     []         -> accum
-    (' ': xs)  -> myWords' [] accum ++ [dropWhile(==' ') xs]
+    x@(' ': xs)  -> myWords' [] accum ++ [dropWhile(==' ') x]
     xs         -> let (a, b) = (takeWhile (/= ' ') xs, dropWhile(/= ' ') xs)
                   in myWords' b (accum ++ [a])
 
