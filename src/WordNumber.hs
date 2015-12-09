@@ -21,16 +21,10 @@ myWords fn1 fn2 str = myWords' str [] where
   myWords' str accum = case str of
     []           -> accum
     x@(' ': xs)  -> myWords' (dropWhile fn1 x) accum
-
-    --let cl = dropWhile fn1 x
-    --                in myWords' cl accum
-
     xs           -> myWords' (dropWhile fn2 xs) (accum ++ [takeWhile fn2 xs])
 
 
-    --let a = takeWhile fn2 xs
-    --                    b = dropWhile fn2 xs
-    --                in myWords' b (accum ++ [a])
+
 
 dropChars :: (a -> Bool) -> [a] -> [a]
 dropChars f = dropWhile f
